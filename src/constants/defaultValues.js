@@ -11,21 +11,23 @@ export const defaultMenuType = 'menu-default';
 
 export const subHiddenBreakpoint = 1440;
 export const menuHiddenBreakpoint = 768;
-export const defaultLocale = 'en';
+export const defaultLocale = 'pt';
 export const localeOptions = [
   { id: 'en', name: 'English - LTR', direction: 'ltr' },
   { id: 'es', name: 'Español', direction: 'ltr' },
   { id: 'enrtl', name: 'English - RTL', direction: 'rtl' },
+  { id: 'pt', name: 'Portuguese', direction: 'ltr' },
 ];
 
 export const firebaseConfig = {
-  apiKey: 'AIzaSyCWtGqfJJUsIcUFdLkAmw1cFRlbdTdKsws',
-  authDomain: 'brains-spirandeli.firebaseapp.com',
-  projectId: 'brains-spirandeli',
-  storageBucket: 'brains-spirandeli.appspot.com',
-  messagingSenderId: '519680197958',
-  appId: '1:519680197958:web:9ec6f295577e840b481147',
-  measurementId: 'G-ENVSBQCMDP',
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_authDomain,
+  databaseURL: process.env.REACT_APP_databaseURL,
+  projectId: process.env.REACT_APP_projectId,
+  storageBucket: process.env.REACT_APP_storageBucket,
+  messagingSenderId: process.env.REACT_APP_messagingSenderId,
+  appId: process.env.REACT_APP_appId,
+  measurementId: process.env.REACT_APP_measurementId,
 };
 export const currentUser = {
   id: 1,
@@ -43,8 +45,9 @@ export const servicePath = 'https://api.coloredstrategies.com';
 export const themeColorStorageKey = '__theme_selected_color';
 export const isMultiColorActive = true;
 export const defaultColor = 'light.blueyale';
+
 export const isDarkSwitchActive = true;
 export const defaultDirection = 'ltr';
 export const themeRadiusStorageKey = '__theme_radius';
-export const isAuthGuardActive = false;
+export const isAuthGuardActive = true;
 export const colors = ['blueyale'];

@@ -1,6 +1,6 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { auth } from 'helpers/Firebase';
-import { adminRoot, currentUser } from 'constants/defaultValues';
+import { adminRoot } from 'constants/defaultValues';
 import { setCurrentUser } from 'helpers/Utils';
 import { storeUserInformationsAsync } from 'api/users';
 import {
@@ -40,8 +40,16 @@ function* loginWithEmailPassword({ payload }) {
   try {
     const loginUser = yield call(loginWithEmailPasswordAsync, email, password);
     if (!loginUser.message) {
-      const item = { uid: loginUser.user.uid, ...currentUser };
-      console.log('item', item);
+      const item = {
+        uid: loginUser.user.uid,
+        email: loginUser.user.email,
+        displayName: loginUser.user.displayName,
+        emailVerified: loginUser.user.emailVerified,
+        refreshToken: loginUser.user.refreshToken,
+        phoneNumber: loginUser.user.phoneNumber,
+        password,
+        role: 0,
+      };
 
       setCurrentUser(item);
       yield put(loginUserSuccess(item));
@@ -76,7 +84,15 @@ function* registerWithEmailPassword({ payload }) {
       password
     );
     if (!registerUser.message) {
-      const item = { uid: registerUser.user.uid, ...currentUser };
+      const item = {
+        uid: registerUser.user.uid,
+        email: registerUser.user.email,
+        displayName: registerUser.user.displayName,
+        emailVerified: registerUser.user.emailVerified,
+        refreshToken: registerUser.user.refreshToken,
+        phoneNumber: registerUser.user.phoneNumber,
+        role: 0,
+      };
       yield call(storeUserInformationsAsync, registerUser.user.uid, {
         email,
         password,

@@ -13,14 +13,13 @@ import {
 } from 'reactstrap';
 
 import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import IntlMessages from 'helpers/IntlMessages';
 import {
   menuHiddenBreakpoint,
   searchPath,
   localeOptions,
-  isDarkSwitchActive,
   buyUrl,
   adminRoot,
 } from 'constants/defaultValues';
@@ -35,7 +34,6 @@ import {
 
 import TopnavEasyAccess from './Topnav.EasyAccess';
 import TopnavNotifications from './Topnav.Notifications';
-import TopnavDarkSwitch from './Topnav.DarkSwitch';
 
 const TopNav = ({
   intl,
@@ -49,9 +47,9 @@ const TopNav = ({
   logoutUserAction,
   changeLocaleAction,
 }) => {
-  const [isInFullScreen, setIsInFullScreen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
-
+  const { currentUser } = useSelector((state) => state.authUser);
+  console.log('authUser', currentUser);
   const search = () => {
     history.push(`${searchPath}?key=${searchKeyword}`);
     setSearchKeyword('');
@@ -67,17 +65,6 @@ const TopNav = ({
         window.location.reload();
       }, 500);
     }
-  };
-
-  const isInFullScreenFn = () => {
-    return (
-      (document.fullscreenElement && document.fullscreenElement !== null) ||
-      (document.webkitFullscreenElement &&
-        document.webkitFullscreenElement !== null) ||
-      (document.mozFullScreenElement &&
-        document.mozFullScreenElement !== null) ||
-      (document.msFullscreenElement && document.msFullscreenElement !== null)
-    );
   };
 
   const handleSearchIconClick = (e) => {
@@ -147,32 +134,6 @@ const TopNav = ({
     if (e.key === 'Enter') {
       search();
     }
-  };
-
-  const toggleFullScreen = () => {
-    const isFS = isInFullScreenFn();
-
-    const docElm = document.documentElement;
-    if (!isFS) {
-      if (docElm.requestFullscreen) {
-        docElm.requestFullscreen();
-      } else if (docElm.mozRequestFullScreen) {
-        docElm.mozRequestFullScreen();
-      } else if (docElm.webkitRequestFullScreen) {
-        docElm.webkitRequestFullScreen();
-      } else if (docElm.msRequestFullscreen) {
-        docElm.msRequestFullscreen();
-      }
-    } else if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-    setIsInFullScreen(!isFS);
   };
 
   const handleLogout = () => {
@@ -279,27 +240,14 @@ const TopNav = ({
       </NavLink>
 
       <div className="navbar-right">
-        {isDarkSwitchActive && <TopnavDarkSwitch />}
         <div className="header-icons d-inline-block align-middle">
           <TopnavEasyAccess />
           <TopnavNotifications />
-          <button
-            className="header-icon btn btn-empty d-none d-sm-inline-block"
-            type="button"
-            id="fullScreenButton"
-            onClick={toggleFullScreen}
-          >
-            {isInFullScreen ? (
-              <i className="simple-icon-size-actual d-block" />
-            ) : (
-              <i className="simple-icon-size-fullscreen d-block" />
-            )}
-          </button>
         </div>
         <div className="user d-inline-block">
           <UncontrolledDropdown className="dropdown-menu-right">
             <DropdownToggle className="p-0" color="empty">
-              <span className="name mr-1">Sarah Kortney</span>
+              <span className="name mr-1">{currentUser.displayName}</span>
               <span>
                 <img alt="Profile" src="/assets/img/profiles/l-1.jpg" />
               </span>

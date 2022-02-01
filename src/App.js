@@ -13,9 +13,9 @@ import { adminRoot, UserRole } from './constants/defaultValues';
 import { getDirection } from './helpers/Utils';
 import { ProtectedRoute } from './helpers/authHelper';
 
-const ViewHome = React.lazy(() =>
-  import(/* webpackChunkName: "views" */ './views/home')
-);
+// const ViewHome = React.lazy(() =>
+//   import(/* webpackChunkName: "views" */ './views/home')
+// );
 const ViewApp = React.lazy(() =>
   import(/* webpackChunkName: "views-app" */ './views/app')
 );
@@ -71,15 +71,15 @@ const App = ({ locale }) => {
                   exact
                   render={(props) => <ViewUnauthorized {...props} />}
                 />
-                <Route
+                {/* <Route
                   path="/"
                   exact
                   render={(props) => <ViewHome {...props} />}
-                />
-                {/*
+                /> DESCOMENTE ESSA LINHA PARA TER ROTAS ROOT */}
+
                 <Redirect exact from="/" to={adminRoot} />
-                */}
-                <Redirect to="/error" />
+
+                {/* <Redirect to="/error" /> */}
               </Switch>
             </Router>
           </Suspense>
